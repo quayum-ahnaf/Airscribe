@@ -25,6 +25,9 @@ const state = {
   minFramesToToggle: 2,
   drawColor: '#ffffff',
   hasReceivedFrame: false,
+  lastHandLandmarks: null,
+  lastHandTime: 0,
+  handHoldMs: 260,
   waveTrail: [],
   eraseCooldownMs: 900,
   lastEraseAt: 0,
@@ -342,20 +345,30 @@ function onResults(results) {
     loadingScreen.style.display = 'none';
   }
 
-  if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
+  const now = performance.now();
+  let hand = null;
+
+  if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+    hand = results.multiHandLandmarks[0];
+    state.lastHandLandmarks = hand;
+    state.lastHandTime = now;
+  } else if (state.lastHandLandmarks && (now - state.lastHandTime) <= state.handHoldMs) {
+    hand = state.lastHandLandmarks;
+  }
+
+  if (!hand) {
     state.isDrawing = false;
     state.currentPath = null;
     state.smoothed = null;
     state.lastSmoothAt = 0;
     state.pinchStableFrames = 0;
     state.releaseStableFrames = 0;
+    state.lastHandLandmarks = null;
     resetWaveDetector();
     overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
     return;
   }
 
-  const now = performance.now();
-  const hand = results.multiHandLandmarks[0];
   const indexAnchor = {
     x: hand[8].x * 0.75 + hand[7].x * 0.25,
     y: hand[8].y * 0.75 + hand[7].y * 0.25
@@ -451,8 +464,8 @@ async function startApp() {
     hands.setOptions({
       maxNumHands: 1,
       modelComplexity: 1,
-      minDetectionConfidence: 0.75,
-      minTrackingConfidence: 0.75
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.55
     });
 
     hands.onResults(onResults);
