@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smooth Air Writing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loading-screen">Starting camera…</div>
+
+  <video id="input_video" playsinline muted></video>
+  <canvas id="draw_canvas"></canvas>
+  <canvas id="overlay_canvas"></canvas>
+
+  <aside id="controls">
+    <h1>Smooth Air Writing</h1>
+    <p>Write with <strong>index finger only</strong>.</p>
+    <p>Fold middle/ring/pinky to draw. Any other pose pauses.</p>
+    <p>For erase: show <strong>open palm</strong> and wave left-right.</p>
+
+    <div class="row">
+      <label for="lineWidth">Line width</label>
+      <input id="lineWidth" type="range" min="1" max="20" value="6" />
+      <span id="lineWidthValue">6</span>
+    </div>
+
+    <div class="row">
+      <label for="smoothness">Smoothness</label>
+      <input id="smoothness" type="range" min="0.05" max="0.45" step="0.01" value="0.18" />
+      <span id="smoothnessValue">0.18</span>
+    </div>
+
+    <div class="buttons">
+      <button id="undoBtn">Undo</button>
+      <button id="clearBtn">Clear</button>
+      <button id="saveBtn">Save PNG</button>
+    </div>
+
+    <p class="hint">Tip: keep your hand centered and move with wrist for cleaner strokes.</p>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

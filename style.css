@@ -1,0 +1,148 @@
+:root {
+  --bg: #03070d;
+  --panel: rgba(11, 18, 28, 0.82);
+  --text: #e8f1ff;
+  --muted: #9fb2ca;
+  --accent: #2dd4ff;
+  --line: #1a2d45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+}
+
+#input_video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+#draw_canvas,
+#overlay_canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#draw_canvas {
+  z-index: 1;
+}
+
+#overlay_canvas {
+  z-index: 2;
+}
+
+#controls {
+  position: fixed;
+  z-index: 3;
+  right: 16px;
+  top: 16px;
+  width: min(360px, calc(100vw - 32px));
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  backdrop-filter: blur(8px);
+}
+
+#controls h1 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+#controls p {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.row {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 90px 1fr 42px;
+  align-items: center;
+  gap: 8px;
+}
+
+.row label {
+  font-size: 0.82rem;
+  color: #c7d8ef;
+}
+
+.row input[type='range'] {
+  width: 100%;
+}
+
+.row span {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #9ee4ff;
+  font-size: 0.8rem;
+}
+
+.buttons {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+button {
+  border: 1px solid #214564;
+  color: var(--text);
+  background: #0f2235;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #16324d;
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 0.8rem !important;
+  color: #8ea7c4 !important;
+}
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: #02060d;
+  color: #d9ecff;
+  letter-spacing: 0.4px;
+  font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+  #controls {
+    left: 10px;
+    right: 10px;
+    top: auto;
+    bottom: 10px;
+    width: auto;
+  }
+}
